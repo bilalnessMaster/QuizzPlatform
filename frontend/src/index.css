@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+    body { 
+        @apply bg-main
+    }
+    .section { 
+        @apply flex-1 py-24 px-12 h-screen
+    }
+    .btn { 
+        @apply bg-gris/25 cursor-pointer px-3 text-primary capitalize py-[.2rem] font-medium font-dm text-lg rounded-full
+    }
+    .shader {
+        @apply shadow-[rgba(17,_17,_26,_0.09)_0px_0px_3px]
+    }
+} 
