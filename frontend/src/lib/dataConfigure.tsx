@@ -14,37 +14,37 @@ interface languageType {
 export const links = [
   {
     name: "home",
-    icon: <House strokeWidth={1.2} size={20} />,
+    icon: <House strokeWidth={1.2}  />,
     href: "/user/home",
   },
   {
     name: "tests",
-    icon: <ClipboardList strokeWidth={1.2} size={20} />,
+    icon: <ClipboardList strokeWidth={1.2}  />,
     href: "/user/tests",
   },
   {
     name: "setting",
-    icon: <SlidersHorizontal strokeWidth={1.2} size={20} />,
+    icon: <SlidersHorizontal strokeWidth={1.2} />,
     href: "/user/tests",
   },
   {
     name: "analytics",
-    icon: <ChartPie strokeWidth={1.2} size={20} />,
+    icon: <ChartPie strokeWidth={1.2} />,
     href: "/user/tests",
   },
   {
     name: "learn (coming soon)",
-    icon: <Presentation strokeWidth={1.2} size={20} />,
+    icon: <Presentation strokeWidth={1.2}  />,
     href: "/user/tests",
   },
   {
     name: "leaderboard",
-    icon: <Crown strokeWidth={1.2} size={20} />,
+    icon: <Crown strokeWidth={1.2}  />,
     href: "/user/tests",
   },
   {
     name: "generate Qcm",
-    icon: <ClipboardType strokeWidth={1.2} size={20} />,
+    icon: <ClipboardType strokeWidth={1.2} />,
     href: "/user/generate",
   },
 ];
@@ -103,7 +103,7 @@ export const level =  [
   }
 ]
 // hard code data for qcms
-export const Qcms = [
+export const QcmsData = [
   {
     id: "qcm1",
     type: "radio",

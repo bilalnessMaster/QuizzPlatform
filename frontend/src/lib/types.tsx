@@ -10,9 +10,10 @@ export type qcmProps = {
   formQcms : formQcmProps;
 };
 export type QuestionProps = {
+  id:string, 
   question: string;
   type: "checkbox" | "radio";
   answers: { answer: string; right: boolean }[];
-  updateScore: (point: number) => void;
+  updateScore : (point: number) => void;
   display?: boolean
 };

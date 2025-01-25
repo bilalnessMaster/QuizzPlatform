@@ -10,6 +10,8 @@ import { links } from "../lib/dataConfigure";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const containerController = useAnimationControls();
+  const [search , setSearch]= useState('')
+  const [linksItems , setlinksItems]= useState(links)
   const container = {
     close: {
       width: "3rem",
@@ -36,6 +38,17 @@ const Navbar = () => {
       containerController.start("close");
     }
   }, [isOpen]);
+  useEffect(() => {
+   if(search){
+    let regx = new RegExp(search , 'igm')
+    let filter = linksItems.filter((item)=> item.name.match(regx))
+    setlinksItems(filter)
+    
+   }else{
+    setlinksItems(links)
+   }
+  }, [search]);
+  
   return (
     <motion.aside
       variants={container}
@@ -44,7 +57,7 @@ const Navbar = () => {
       style={{
  
       }}
-      className="px-3 py-4 bg-white   h-screen w-80 flex flex-col justify-between overflow-hidden"
+      className="px-3 py-4 bg-white   h-screen w-80 flex flex-col justify-between overflow-hidden z-20"
     >
       <div className="space-y-14 ">
         <div className="flex items-center justify-between">
@@ -98,6 +111,8 @@ const Navbar = () => {
                 name="Search"
                 id="Search"
                 disabled={!isOpen}
+                value={search}
+                onChange={(e)=>setSearch(e.target.value)}
                 className="transition-all  duration-300 text-xs outline-none w-full bg-gris/45 h-8 font-light font-dm rounded-sm pl-9 "
                 placeholder="Setting .."
               />
@@ -107,7 +122,7 @@ const Navbar = () => {
             </label>
           </div>
           <div className="flex flex-col gap-5">
-            {links.map(({ name, href, icon }, index) => (
+            {linksItems.map(({ name, href, icon }, index) => (
               <LinksItem key={index} name={name} href={href} icon={icon} />
             ))}
           </div>

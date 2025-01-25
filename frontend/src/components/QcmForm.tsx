@@ -1,10 +1,12 @@
-
 import { category, level } from "../lib/dataConfigure";
 import { language } from "../lib/dataConfigure";
 import { twMerge } from "tailwind-merge";
-import { formQcmProps, qcmProps } from "../lib/types";
-import { Sparkles } from "lucide-react";
+import { formQcmProps } from "../lib/types";
+import { Play, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import axiosInstance from "../lib/axios";
+import { useQcmStore } from "../stores/useQcmStore";
 
 const QcmForm = () => {
   const [formQcms, setFormQcms] = useState<formQcmProps>({
@@ -35,25 +37,51 @@ const QcmForm = () => {
       };
     });
   };
+  const  {setQcmData , QcmsData ,setStart} = useQcmStore()
+  const {mutate :fetchingQcm ,isPending } = useMutation({
+    mutationKey : ['fetchingQcm'],
+    mutationFn : async (formQcms:formQcmProps ) => {
+      try {
+        const response = await axiosInstance.post('/qcm/getqcms' , formQcms)
+        return response.data
+      } catch (error) {
+        console.log('error occured while fetching qcm '+error);
+        
+      }
+    },
+    onSuccess : (data : any) =>{
+      setQcmData(data?.qcms)
+    }
+  })
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    fetchingQcm(formQcms)
+  };
+  
   return (
-    <form className="bg-white w-full  px-4   py-4  shader rounded-md ">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white w-full  px-4   py-4  shader rounded-md "
+    >
       <label className="space-y-4 flex flex-col mb-3">
         <span className="font-Geist text-xl">
           What do you want to focus on?
         </span>
         <div className="flex gap-2 max-w-md flex-wrap ">
           {category.map(({ language }, index) => (
-            <span
+            <button
+              type="button"
               onClick={() => handleCategory(language)}
               key={index}
               className={twMerge(
-                "btn transition-all",
+                "btn transition-all duration-300",
                 formQcms.category.includes(language) &&
                   "bg-secondary/25 text-secondarytwo"
               )}
+              aria-label={`Select category ${language}`}
             >
               {language}
-            </span>
+            </button>
           ))}
         </div>
       </label>
@@ -61,17 +89,18 @@ const QcmForm = () => {
         <span className="font-Geist text-xl">Choose Your Language</span>
         <div className="flex gap-2 max-w-sm flex-wrap ">
           {language.map(({ id, language }) => (
-            <span
+            <button
+              type="button"
               onClick={() => setFormQcms({ ...formQcms, language })}
               key={id}
               className={twMerge(
-                "btn transition-all",
+                "btn transition-all duration-300",
                 formQcms.language === language &&
                   "bg-secondary/25 text-secondarytwo"
               )}
             >
               {language}
-            </span>
+            </button>
           ))}
         </div>
       </label>
@@ -80,7 +109,7 @@ const QcmForm = () => {
         <div className="bg-gris/25 w-fit px-1 py-1 rounded-full font-dm ">
           <span
             onClick={() => handleNumberofQcms(formQcms.numberQcms - 1)}
-            className="w-8 inline-flex justify-center font-medium border-r-2  border-primary/45 text-lg"
+            className="w-8 inline-flex justify-center  font-medium border-r-2  border-primary/45 text-lg"
           >
             -
           </span>
@@ -99,28 +128,54 @@ const QcmForm = () => {
         <span className="font-Geist text-xl">Select Quiz’s level</span>
         <div className="flex gap-2 max-w-sm flex-wrap ">
           {level.map(({ id, level }) => (
-            <span
+            <button
+              type="button"
               onClick={() => setFormQcms({ ...formQcms, level })}
               key={id}
               className={twMerge(
-                "btn transition-all",
+                "btn transition-all duration-300",
                 formQcms.level === level && "bg-secondary/25 text-secondarytwo"
               )}
             >
               {level}
-            </span>
+            </button>
           ))}
         </div>
       </label>
       <label className="">
-      <button className="flex justify-center w-full bg-secondary/35 rounded-full ">
-        <span className="flex  items-center gap-2 py-2">
-        <span>
-          <Sparkles strokeWidth={2}  size={30}/>
-        </span>
-        <span className="text-3xl font-bricolage">Generate</span>
-        </span>
-      </button>
+        {QcmsData.length > 10 ? (
+          <button
+            type="button"
+            className="flex justify-center w-full group/start bg-secondary/25 rounded-full "
+            disabled={isPending}
+            onClick={()=>setStart(true)}
+
+          >
+            <span className="flex  group-hover/start:gap-1 transition-all duration-300 items-center gap-4 py-2">
+              <span>
+                <Play  strokeWidth={2} size={30}  />
+              </span>
+              <span className="text-3xl font-bricolage">Start</span>
+            </span>
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="flex justify-center group/generate w-full bg-secondary/35 rounded-full "
+            disabled={isPending}
+          >
+            {
+              isPending ? "loading..." : (
+                <span className="flex  group-hover/generate:gap-1 transition-all duration-300 items-center gap-4 py-2">
+                <span>
+                  <Sparkles strokeWidth={2} size={30} />
+                </span>
+                <span className="text-3xl font-bricolage">Generate</span>
+              </span>
+              )
+            }
+          </button>
+    )}
       </label>
     </form>
   );
