@@ -1,36 +1,49 @@
 import { useState } from "react";
-import { QuestionProps } from "../lib/types";
+import { Answer, QuestionProps } from "../lib/types";
 import { twMerge } from "tailwind-merge";
 import { motion } from "framer-motion";
+import { useToast } from "@/hooks/use-toast";
+
 const CheckboxCard = ({
   question,
   type,
   answers,
   updateScore,
 }: QuestionProps) => {
-  const [seletedAnswer, setSeletedAnswer] = useState<string[]>([]);
+  const [selectedAnswer, setSelectedAnswer] = useState<string[]>([]);
+  const rightQuestions = answers?.filter(item=>item.right)?.length
+  const ScorePerAnswer =  rightQuestions ? 1 / rightQuestions : 0;
+  const {toast}= useToast()
   const handleAnswer = (
     e: React.ChangeEvent<HTMLInputElement>,
-    ans: { answer: string; right: boolean }
+    ans: Answer
   ) => {
     const isRight = ans.right;
-    let { value, checked } = e.target;
+    const  { value, checked } = e.target;
 
     if (checked) {
-      setSeletedAnswer((presState) => [...presState, value.toLowerCase()]);
+      setSelectedAnswer((presState) => [...presState, value.toLowerCase()]);
       if (isRight) {
-        updateScore(+1);
+        updateScore(+ScorePerAnswer);
       }
-    } else {
-      let filter = seletedAnswer.filter(
+      } else {
+      const filter = selectedAnswer.filter(
         (answer: any) => answer.toLowerCase() !== value.toLowerCase()
       );
-      setSeletedAnswer(filter);
+      setSelectedAnswer(filter);
       if (isRight) {
-        updateScore(-1);
+        updateScore(-ScorePerAnswer);
       }
     }
   };
+  const handleDisable = () => { 
+    toast({
+      type: "foreground",
+      variant : 'destructive',
+      title: `You can only choose ${rightQuestions} answers.`,
+
+    })
+  }
   return (
     <motion.div
       initial={{
@@ -57,21 +70,32 @@ const CheckboxCard = ({
       </div>
       <div>
         <ul className="space-y-2">
-          {answers.map(({ answer, right }, index) => (
-            <li key={index} className="flex gap-3 items-center ">
+          {answers.map(({ answer, right }, index) => {
+            const isDisabled = selectedAnswer.length === rightQuestions && !selectedAnswer.includes(answer.toLowerCase())
+            return (
+              <li key={index}  className={`flex gap-3 items-center cursor-pointer ${
+                isDisabled ? "opacity-50 cursor-not-allowed" : ""
+              }`}  onClick={()=>{
+                if(isDisabled){
+                  handleDisable()
+                }
+              }} >
               <input
-                onChange={(e) => handleAnswer(e, { answer, right })}
+                onChange={(e) => {handleAnswer(e, { answer, right })}}
                 type={type}
                 name={question}
                 value={answer}
+                disabled={isDisabled}
                 id={question + index}
-                className={twMerge("checkbox")}
+                className={twMerge("checkbox", isDisabled ? "pointer-events-none" : "")}
+                aria-label={`Answer ${index + 1}`}
               />
               <span className=" font-dm font-normal text-lg">
                 {answer}
               </span>
             </li>
-          ))}
+            )
+          })}
         </ul>
       </div>
     </motion.div>

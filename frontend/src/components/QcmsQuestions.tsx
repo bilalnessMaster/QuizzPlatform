@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 import Watch from "./watch";
 import CheckboxCard from "./CheckboxCard";
 import RadioCard from "./RadioCard";
+import Result from "./Result";
 const QcmsQuestions = () => {
   const {
     QcmsData,
@@ -69,6 +70,8 @@ const QcmsQuestions = () => {
         ))}
       </div>
       <Watch />
+      <Result />
+     
     </div>
   );
 };

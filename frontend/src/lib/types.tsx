@@ -13,7 +13,12 @@ export type QuestionProps = {
   id:string, 
   question: string;
   type: "checkbox" | "radio";
-  answers: { answer: string; right: boolean }[];
+  answers: Answer[];
   updateScore : (point: number) => void;
   display?: boolean
 };
+
+export interface Answer {
+  answer: string;
+  right: boolean;
+}

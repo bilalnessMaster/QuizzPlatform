@@ -1,3 +1,5 @@
+
+
 const Home = () => {
   return (
     <section className="section overflow-x-auto ">
@@ -16,7 +18,7 @@ const Home = () => {
 
         </div>
         <div className="md:col-span-8 rounded-md   bg-white shader">
-
+         
         </div>
       </div>
      </div>

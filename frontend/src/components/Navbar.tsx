@@ -37,17 +37,17 @@ const Navbar = () => {
     } else {
       containerController.start("close");
     }
-  }, [isOpen]);
+  }, [isOpen ,containerController]);
   useEffect(() => {
    if(search){
-    let regx = new RegExp(search , 'igm')
-    let filter = linksItems.filter((item)=> item.name.match(regx))
+    const regx = new RegExp(search , 'igm')
+    const filter = linksItems.filter((item)=> item.name.match(regx))
     setlinksItems(filter)
     
    }else{
     setlinksItems(links)
    }
-  }, [search]);
+  }, [search ,linksItems]);
   
   return (
     <motion.aside

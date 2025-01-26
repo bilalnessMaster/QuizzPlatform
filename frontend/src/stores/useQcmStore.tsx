@@ -5,11 +5,14 @@ export const useQcmStore = create<any>((set, get) => ({
   start: false,
   completed: false,
   currentIndex: 0,
+  time: 0,
   SelectedAnswer: [],
   score: 0,
-  updateScore: (value: number) =>{
-    const {score}= get()
-    set({score : score+value})
+  accuracy:0, 
+  updateScore: (value: number) => {
+    const { score ,QcmsData } = get();
+    const accuracy = (score/QcmsData.length)*100
+    set({ score: score + value, accuracy});
   },
   setStart: (value: boolean) => set({ start: value }),
   SetSelectedAnswer: (answer: any) => {
@@ -27,10 +30,23 @@ export const useQcmStore = create<any>((set, get) => ({
     }
   },
   handlePreviousQuestion: () => {
-    const { currentIndex, QcmsData } = get();
+    const { currentIndex } = get();
     if (currentIndex >= 0 && currentIndex !== 0) {
       set({ currentIndex: currentIndex - 1 });
     }
   },
   setQcmData: (dataQcm: any) => set({ QcmsData: dataQcm }),
+  setTime: (value: number) => set({ time: value }),
+  ResetQcmDetails: () => {
+    set({
+      QcmsData: [],
+      start: false,
+      completed: false,
+      currentIndex: 0,
+      time: 0,
+      SelectedAnswer: [],
+      score: 0,
+      accuracy:0
+    });
+  },
 }));

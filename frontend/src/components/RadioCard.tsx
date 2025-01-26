@@ -9,7 +9,7 @@ const RadioCard = ({ question, type, answers, updateScore }: QuestionProps) => {
     ans: { answer: string; right: boolean }
   ) => {
     const isRight = ans.right;
-    let { value, checked } = e.target;
+    const { value, checked } = e.target;
 
     if (checked) {
       if (checked) {
@@ -28,8 +28,6 @@ const RadioCard = ({ question, type, answers, updateScore }: QuestionProps) => {
       }
     }
   };
-  console.log(seletedAnswer);
-
   return (
     <motion.div
       initial={{
