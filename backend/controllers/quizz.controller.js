@@ -4,7 +4,7 @@ import { data } from "../lib/Configure.js";
 export const getQcms = async (req, res) => {
         try {
             const filter = req.body
-            console.log(filter);
+          
             
             res.status(200).json({
                 success : true , 
@@ -20,4 +20,18 @@ export const getQcms = async (req, res) => {
             })
             
         }
+}
+
+export const quizAttempt = async (req ,res) => { 
+    try {
+        const payload = req.body
+        console.log(payload);
+        
+    } catch (error) {
+        console.log('error while saving attempt',error);
+        return res.status(500).json({
+            success : true , 
+            message : "internal error", 
+        })
+    }
 }

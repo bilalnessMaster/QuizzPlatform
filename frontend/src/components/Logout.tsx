@@ -9,10 +9,10 @@ const Logout = () => {
         </div>
         <div className="leading-[1rem] font-medium">
             <h2>@bilalMaster</h2>
-            <h2 className="text-black/35">bilal@gmail.com</h2>
+            <h2 className="text-black/35 dark:text-neutral-300/55">bilal@gmail.com</h2>
         </div>
       </div>
-      <button className="text-black/75">
+      <button className="text-black/75 dark:text-neutral-300">
         <LogOut size={19}/>
       </button>
     </div>

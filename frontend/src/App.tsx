@@ -6,7 +6,7 @@ import { Toaster } from "./components/ui/toaster"
 const App = () => {
   return (
     <>
-   <section className="flex ">
+   <section className="flex">
     <Navbar />
     <Outlet />
    </section>

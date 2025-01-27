@@ -2,8 +2,10 @@ import { useState } from "react";
 import { QuestionProps } from "../lib/types";
 import { twMerge } from "tailwind-merge";
 import { motion } from "framer-motion";
+import { useQcmStore } from "@/stores/useQcmStore";
 const RadioCard = ({ question, type, answers, updateScore }: QuestionProps) => {
   const [seletedAnswer, setSeletedAnswer] = useState<string>("");
+  const {SetSelectedAnswerRadio}= useQcmStore()
   const handleAnswer = (
     e: React.ChangeEvent<HTMLInputElement>,
     ans: { answer: string; right: boolean }
@@ -11,7 +13,7 @@ const RadioCard = ({ question, type, answers, updateScore }: QuestionProps) => {
     const isRight = ans.right;
     const { value, checked } = e.target;
 
-    if (checked) {
+   
       if (checked) {
         const prevRightAnswer = answers.find(
           (answerObj) => answerObj.answer === seletedAnswer
@@ -20,13 +22,13 @@ const RadioCard = ({ question, type, answers, updateScore }: QuestionProps) => {
         if (prevRightAnswer) {
           updateScore(-1);
         }
-
         setSeletedAnswer(value);
+        SetSelectedAnswerRadio(question , value)
         if (isRight) {
           updateScore(+1);
         }
       }
-    }
+    
   };
   return (
     <motion.div
@@ -47,7 +49,7 @@ const RadioCard = ({ question, type, answers, updateScore }: QuestionProps) => {
         opacity: 0,
         y: -200,
       }}
-      className="w-full max-w-lg bg-white shader px-4 py-4 rounded-md space-y-5"
+      className="w-full max-w-lg bg-white shader px-4 py-4 rounded-lg space-y-5 dark:bg-neutral-800 dark:border border-neutral-700 "
     >
       <div>
         <h1 className="font-dm  font-medium text-xl">{question}</h1>

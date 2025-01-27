@@ -12,20 +12,47 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useQcmStore } from "../stores/useQcmStore";
 import CountUp from "react-countup";
+import { useMutation } from "@tanstack/react-query";
+import axios from "@/lib/axios";
+import { useEffect } from "react";
 const Result = () => {
   const navigate = useNavigate();
-  const { completed, time, score, QcmsData, ResetQcmDetails, accuracy } =
-    useQcmStore();
+  const {formQcms, time,SelectedAnswers, score, QcmsData, ResetQcmDetails, accuracy ,completed } = useQcmStore();
   const handleReset = () => {
     ResetQcmDetails();
     navigate("/user/home");
   };
-  const percentage = 50
+  const {mutate : createAttempt  } = useMutation({
+    mutationKey : ['createAttempt'] , 
+    mutationFn : async (stats : any) => { 
+      await axios.post('/qcm/attempt', stats)
+    },
+    onError : () =>{
+      console.log('something wrong');
+      
+    }
+  })
+  useEffect(()=>{
+   if(completed){
+    createAttempt({
+      score : Math.floor(score), 
+      language :formQcms.language  , 
+      category: formQcms.category ,
+      status: accuracy > 50 ? 'passed' : 'failed',
+      maxScore : QcmsData.length , 
+      answers: SelectedAnswers,
+      timeTaken: time 
+
+    })
+   }
+  },[createAttempt ,completed])
+  console.log(SelectedAnswers);
+  
   return (
     <>
-      {completed && (
-        <>
-          {" "}
+   
+    
+        
           <div className="absolute backdrop-blur-[2px] inset-0 bg-white/5 max-bg transition-all duration-300"></div>
           <motion.div
             initial={{
@@ -42,7 +69,7 @@ const Result = () => {
               duration: 0.5,
               ease: "easeInOut",
             }}
-            className="bg-white absolute shader w-2/3 lg:w-[600px] px-2 pb-3 pt-4 rounded-md space-y-8"
+            className="dark:bg-neutral-800 dark:border border-neutral-700 bg-white absolute shader w-3/4 lg:w-[600px] px-2 pb-3 pt-4 rounded-md space-y-8"
           >
             
             <div className="flex items-center justify-center">
@@ -90,7 +117,7 @@ const Result = () => {
                 
                 </svg>
                 <span className="absolute flex flex-col items-center  font-medium font-bricolage text-secondarytwo left-1/2 top-1/2 -translate-x-1/2">
-                  <span className="text-4xl"><CountUp end={Math.ceil(accuracy)} duration={4} />%</span>
+                  <span className="text-4xl dark:text-[#DD86FF]"><CountUp end={Math.ceil(accuracy)} duration={4} />%</span>
                   <span className="text-gray-400">Accuracy</span>
                 </span>
               </div>
@@ -125,7 +152,7 @@ const Result = () => {
             <div className="flex items-center gap-2 ">
               <button
                 onClick={handleReset}
-                className="bg-gris/25 flex justify-center flex-1 py-2 rounded-md "
+                className="bg-gris/25 flex dark:bg-neutral-700 justify-center flex-1 py-[.57rem] rounded-md "
               >
                 <span>
                   <Home strokeWidth={1.1} size={30} />
@@ -133,7 +160,7 @@ const Result = () => {
               </button>
               <button
                 onClick={ResetQcmDetails}
-                className="flex-1 flex justify-center bg-secondary/25 rounded-md px-2 hover:gap-1 transition-all duration-300 items-center gap-4 py-2"
+                className="flex-1 flex justify-center bg-btnColor dark:bg-neutral-700 rounded-md px-2 hover:gap-1 transition-all duration-300 items-center gap-4 py-2"
               >
                 <span>
                   <Sparkles strokeWidth={1.1} size={30} />
@@ -143,8 +170,7 @@ const Result = () => {
             </div>
           </motion.div>
         </>
-      )}
-    </>
+    
   );
 };
 

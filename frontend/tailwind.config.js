@@ -10,6 +10,7 @@ export default {
   		colors: {
   			gris: '#D9D9D9',
   			main: '#F6F7FB',
+			btnColor : "#FDF8FF",
   			secondary: {
   				DEFAULT: 'hsl(var(--secondary))',
   				foreground: 'hsl(var(--secondary-foreground))'

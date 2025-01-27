@@ -4,11 +4,11 @@ import { useQcmStore } from "../stores/useQcmStore.tsx"
 
 
 const Generate = () => {
-  const {start , score} = useQcmStore()
-  console.log(score);
+  const {start} = useQcmStore()
+
   
   return (
-    <section className='section flex justify-center relative'>
+    <section className='section flex justify-center items-center relative'>
         { !start ? 
          ( <div className='md:w-1/2 '>
           <QcmForm/>

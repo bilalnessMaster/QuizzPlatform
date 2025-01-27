@@ -3,6 +3,7 @@ import { Answer, QuestionProps } from "../lib/types";
 import { twMerge } from "tailwind-merge";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
+import { useQcmStore } from "@/stores/useQcmStore";
 
 const CheckboxCard = ({
   question,
@@ -14,6 +15,7 @@ const CheckboxCard = ({
   const rightQuestions = answers?.filter(item=>item.right)?.length
   const ScorePerAnswer =  rightQuestions ? 1 / rightQuestions : 0;
   const {toast}= useToast()
+  const {SetSelectedAnswerCheckBox} = useQcmStore()
   const handleAnswer = (
     e: React.ChangeEvent<HTMLInputElement>,
     ans: Answer
@@ -22,11 +24,13 @@ const CheckboxCard = ({
     const  { value, checked } = e.target;
 
     if (checked) {
+      SetSelectedAnswerCheckBox(question , value)
       setSelectedAnswer((presState) => [...presState, value.toLowerCase()]);
       if (isRight) {
         updateScore(+ScorePerAnswer);
       }
       } else {
+        SetSelectedAnswerCheckBox(question , value)
       const filter = selectedAnswer.filter(
         (answer: any) => answer.toLowerCase() !== value.toLowerCase()
       );
@@ -63,7 +67,7 @@ const CheckboxCard = ({
         opacity: 0,
         y: -200,
       }}
-      className="w-full max-w-lg bg-white shader px-4 py-4 rounded-md space-y-5"
+      className="w-full max-w-lg bg-white shader px-4 py-4 rounded-lg space-y-5 dark:bg-neutral-800 dark:border border-neutral-700 "
     >
       <div>
         <h1 className="font-dm  font-medium text-xl">{question}</h1>

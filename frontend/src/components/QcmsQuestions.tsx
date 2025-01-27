@@ -70,7 +70,9 @@ const QcmsQuestions = () => {
         ))}
       </div>
       <Watch />
-      <Result />
+      {
+        completed && <Result />
+      }
      
     </div>
   );
