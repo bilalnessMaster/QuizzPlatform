@@ -1,4 +1,4 @@
-import Qcm from "../models/qcm.model.js";
+import Qcm from "../models/Qcm.model.js";
 export const data = [
     {
       "type": "radio",

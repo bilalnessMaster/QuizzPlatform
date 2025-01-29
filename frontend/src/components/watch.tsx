@@ -17,7 +17,7 @@ const Watch = () => {
     if(completed){
       setTime(watch)
     }
-  },[completed ,setTime]);
+  },[completed]);
   
   return (
     <div className="absolute flex top-4 right-4 font-Geist text-2xl font-light ">

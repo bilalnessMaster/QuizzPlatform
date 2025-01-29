@@ -14,10 +14,11 @@ import { useQcmStore } from "../stores/useQcmStore";
 import CountUp from "react-countup";
 import { useMutation } from "@tanstack/react-query";
 import axios from "@/lib/axios";
-import { useEffect } from "react";
-const Result = () => {
+import { memo, useEffect } from "react";
+import { useShallow } from 'zustand/react/shallow'
+const Result = memo(() => {
   const navigate = useNavigate();
-  const {formQcms, time,SelectedAnswers, score, QcmsData, ResetQcmDetails, accuracy ,completed } = useQcmStore();
+  const { completed, attemptSaved ,setAttemptSaved ,  formQcms, time, SelectedAnswers, score, QcmsData, ResetQcmDetails } = useQcmStore(useShallow((state)=>state))
   const handleReset = () => {
     ResetQcmDetails();
     navigate("/user/home");
@@ -27,27 +28,31 @@ const Result = () => {
     mutationFn : async (stats : any) => { 
       await axios.post('/qcm/attempt', stats)
     },
-    onError : () =>{
-      console.log('something wrong');
+    onError: () => {
+      console.error("error happened in the process of saving your attempt");
       
-    }
+    },
+    onSuccess: () => {
+      console.log("Tentative enregistrée avec succès !");
+ 
+    },
   })
+  
   useEffect(()=>{
-   if(completed){
+   if(completed && !attemptSaved && time){
     createAttempt({
-      score : Math.floor(score), 
+      score : Math.round(score), 
       language :formQcms.language  , 
       category: formQcms.category ,
-      status: accuracy > 50 ? 'passed' : 'failed',
+      status: (score/QcmsData.length)*100 > 50 ? 'passed' : 'failed',
       maxScore : QcmsData.length , 
       answers: SelectedAnswers,
       timeTaken: time 
-
     })
+    setAttemptSaved(true)
    }
-  },[createAttempt ,completed])
-  console.log(SelectedAnswers);
-  
+  },[completed, attemptSaved, time ,setAttemptSaved,QcmsData.length])
+
   return (
     <>
    
@@ -91,7 +96,7 @@ const Result = () => {
                       pathLength : 0
                     }}
                     animate={{
-                      pathLength : accuracy/100 //
+                      pathLength : Math.round(score/QcmsData.length)
                     }}
                     transition={{
                       duration : 4  , delay : .4
@@ -117,7 +122,7 @@ const Result = () => {
                 
                 </svg>
                 <span className="absolute flex flex-col items-center  font-medium font-bricolage text-secondarytwo left-1/2 top-1/2 -translate-x-1/2">
-                  <span className="text-4xl dark:text-[#DD86FF]"><CountUp end={Math.ceil(accuracy)} duration={4} />%</span>
+                  <span className="text-4xl dark:text-[#DD86FF]"><CountUp end={Math.round(score/QcmsData.length*100)} duration={4} />%</span>
                   <span className="text-gray-400">Accuracy</span>
                 </span>
               </div>
@@ -172,6 +177,6 @@ const Result = () => {
         </>
     
   );
-};
+});
 
 export default Result;

@@ -1,5 +1,3 @@
-import QcmForm from "@/components/QcmForm";
-import { category } from "@/lib/dataConfigure";
 import { create } from "zustand";
 
 export const useQcmStore = create<any>((set, get) => ({
@@ -16,11 +14,13 @@ export const useQcmStore = create<any>((set, get) => ({
   time: 0,
   SelectedAnswers: [],
   score: 0,
-  accuracy:0, 
+  attemptSaved: false,
+  setAttemptSaved: (value : boolean) => set({ attemptSaved: value }),
+
   updateScore: (value: number) => {
-    const { score ,QcmsData } = get();
-    const accuracy = score ? (score/QcmsData.length)*100 : 0
-    set({ score: score + value, accuracy});
+    const { score  } = get();
+
+    set({ score: score + value});
   },
   setStart: (value: boolean) => set({ start: value }),
   SetSelectedAnswerCheckBox: (question : string , answer: string) => {
@@ -81,12 +81,13 @@ export const useQcmStore = create<any>((set, get) => ({
       time: 0,
       SelectedAnswer: [],
       score: 0,
-      accuracy:0
+      accuracy:0,
+      attemptSaved : false
     });
   },
   handleNumberofQcms : (number: number) => {
     const {formQcms}= get()
-    if(number >= 10 && number <= 30) {
+    if(number >= 5 && number <= 30) {
       set({formQcms : {...formQcms, numberQcms : number}})
     } else {
       console.log("minimume number is 10 question");

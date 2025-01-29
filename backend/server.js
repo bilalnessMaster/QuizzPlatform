@@ -14,8 +14,6 @@ app.use(cors({
     origin : process.env.CLIENT_URL,
     credentials : true ,
 }))
-
-// insert()
 app.use('/api/v1/qcm' , qcmRouter)
 
 app.listen(port , ()=>{

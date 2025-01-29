@@ -25,22 +25,40 @@ const QcmForm = () => {
     mutationKey: ["fetchingQcm"],
     mutationFn: async (formQcms: formQcmProps) => {
       const response = await axiosInstance.post("/qcm/getqcms", formQcms);
-      return response.data;
+      
+      
+      return response.data.qcms;
     },
     onSuccess: (data: any) => {
-      setQcmData(data?.qcms);
+     
+      if(data?.length > 0){
+        setQcmData(data);
+      }else{
+        toast({
+          title : "Warning",
+          description : 'There is no quizz under this category'
+        })
+      }
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Something went wrong",
+        description: "Something went wrong"+error,
       });
     },
   });
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    fetchingQcm(formQcms);
+    if(formQcms.category.length > 0 && formQcms.numberQcms >= 5 && formQcms.language && level){
+      fetchingQcm(formQcms);
+    }else{
+      toast({
+        title : 'Warning',
+        description : 'make sure  you select everything'
+      })
+    }
+    
   };
   return (
     <form
@@ -128,7 +146,7 @@ const QcmForm = () => {
         </div>
       </label>
       <label className="">
-        {QcmsData?.length > 10 ? (
+        {QcmsData?.length > 0 ? (
           <button
             type="button"
             className="flex justify-center w-full group/start bg-secondary/25 rounded-full "
@@ -148,9 +166,9 @@ const QcmForm = () => {
             className="flex justify-center group/generate w-full h-12 items-center  bg-btnColor rounded-full dark:bg-neutral-600 "
             disabled={isPending}
           >
-            {isPending ? (
+            {isPending? (
             <span>
-              <Loader strokeWidth={2} size={25} className="animate-spin " />
+              <Loader strokeWidth={2} size={25} className="transition-all duration-[10000] animate-spin " />
             </span>
             ) : (
               <span className="flex  group-hover/generate:gap-1 transition-all duration-300 items-center gap-4 py-2">
@@ -163,6 +181,7 @@ const QcmForm = () => {
           </button>
         )}
       </label>
+    
     </form>
   );
 };

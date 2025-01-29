@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 const attempSchema = new Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    // userId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "User",
+    //   required: true,
+    // },
     score: {
       type: Number,
       required: true,
@@ -40,3 +40,6 @@ const attempSchema = new Schema(
   },
   { timestamps: true }
 );
+
+const Attempt = mongoose.model('Attempt' , attempSchema)
+export default Attempt;

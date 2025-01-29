@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
 import Generate from "../pages/Generate";
+import SignUp from "@/pages/SignUp";
 
 
 export const router = createBrowserRouter([
@@ -22,5 +23,9 @@ export const router = createBrowserRouter([
                 element : <Generate />
             }
         ]
+    } , 
+    {
+        path : '/signup' , 
+        element : <SignUp/>
     }
 ])

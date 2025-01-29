@@ -10,6 +10,8 @@ const Details = ({
   icon: React.ReactNode;
   number: number;
 }) => {
+
+  
   return (
     <span className="flex flex-col font-dm text-lg">
       <span className="text-primary font-light">{name}</span>
@@ -19,9 +21,9 @@ const Details = ({
           {
             name !== 'Time' ? <CountUp end={number} duration={4}/> : (
               <span>
-                <span><CountUp end={Math.floor(number/59)} duration={4}/></span>
+                <span><CountUp end={Math.floor(number/59)} duration={4} formattingFn={(val)=> val.toString().padStart(2, '0')}/></span>
                 <span>:</span>
-                <span><CountUp end={Math.floor(number%59)} duration={4}/></span>
+                <span><CountUp end={Math.floor(number%59)} duration={4} formattingFn={(val)=> val.toString().padStart(2, '0')}/></span>
               </span>
             )
           }

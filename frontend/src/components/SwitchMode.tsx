@@ -1,36 +1,39 @@
-import useDarkMode from "@/CustomHooks/useDarkMode";
+
 import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 
-const SwitchMode = () => {
+const SwitchMode = memo(() => {
   const [mode, setMode] = useState("light");
-  const { isDarkMode, setIsDarkMode } = useDarkMode();
-
-  useEffect(() => {
-    if (isDarkMode) {
-      setMode("dark");
-    } else {
-      setMode("light");
-    }
-  }, [isDarkMode]);
+  let style = localStorage.getItem("darkMode");
+  let isDarkMode =  style ? JSON.parse(style) : false;
+  useEffect(()=>{
+      if(isDarkMode){
+        setMode('dark')
+        document.documentElement.classList.add("dark");
+      }else{
+        setMode('light')
+        document.documentElement.classList.remove("dark");
+      }
+  },[])
+ 
+ 
   useEffect(()=>{
     if(mode == 'dark'){
+      localStorage.setItem("darkMode", 'true');
       document.documentElement.classList.add("dark");
     }else{
+      localStorage.setItem("darkMode", 'false');
       document.documentElement.classList.remove("dark");
     }
   },[mode])
 
   const handleSwitch = () => {
-    localStorage.setItem("darkMode", mode === "dark" ? "true" : "false");
     setMode(mode === "dark" ? "light" : "dark");
   };
-  console.log('df');
-  
   return (
     <button
       onClick={handleSwitch}
-      className="dark:bg-neutral-800 absolute bottom-4 border- right-4 size-12 bg-white shader items-center flex  justify-center rounded-full"
+      className="dark:bg-neutral-800 absolute bottom-4 border right-4 size-12 bg-white shader items-center flex  justify-center rounded-full  dark:border-neutral-50"
     >
       {!(mode === "dark") ? (
         <Moon />
@@ -39,6 +42,6 @@ const SwitchMode = () => {
       )}
     </button>
   );
-};
+});
 
 export default SwitchMode;
