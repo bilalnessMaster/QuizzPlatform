@@ -2,7 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
 import Generate from "../pages/Generate";
-import SignUp from "@/pages/SignUp";
+import Auth from "@/pages/Auth";
+import SignUp from "@/components/SignUp";
 
 
 export const router = createBrowserRouter([
@@ -25,7 +26,13 @@ export const router = createBrowserRouter([
         ]
     } , 
     {
-        path : '/signup' , 
-        element : <SignUp/>
+        path : '/session' , 
+        element : <Auth/>,
+        children : [
+            {
+                path: '/session/',
+                element : <SignUp/>
+            }
+        ]
     }
 ])
