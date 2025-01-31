@@ -6,8 +6,11 @@ import { useAnimationControls } from "framer-motion";
 import { motion } from "framer-motion";
 import { Search, Sparkles } from "lucide-react";
 import { links } from "../lib/dataConfigure";
+import { useQuery } from "@tanstack/react-query";
+import { userProps } from "@/lib/types";
 
 const Navbar = () => {
+  const {data : AuthUser} = useQuery<userProps>({queryKey : ['AuthUser']})
   const [isOpen, setIsOpen] = useState(false);
   const containerController = useAnimationControls();
   const [search , setSearch]= useState('')
@@ -30,7 +33,7 @@ const Navbar = () => {
       },
     },
   };
-
+  
   useEffect(() => {
     if (isOpen) {
       containerController.start("open");
@@ -48,7 +51,7 @@ const Navbar = () => {
     setlinksItems(links)
    }
   }, [search ,linksItems]);
-  
+
   return (
     <motion.aside
       variants={container}
@@ -123,13 +126,13 @@ const Navbar = () => {
           </div>
           <div className="flex flex-col gap-5">
             {linksItems.map(({ name, href, icon }, index) => (
-              <LinksItem key={index} name={name} href={href} icon={icon} />
+              <LinksItem key={index} name={name} href={href} icon={icon} isOpen={isOpen} />
             ))}
           </div>
         </div>
       </div>
       <div className="mt-16">
-        <Logout />
+        <Logout user={AuthUser} isOpen={isOpen} />
       </div>
     </motion.aside>
   );

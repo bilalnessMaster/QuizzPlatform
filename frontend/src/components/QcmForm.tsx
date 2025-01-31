@@ -168,7 +168,7 @@ const QcmForm = () => {
           >
             {isPending? (
             <span>
-              <Loader strokeWidth={2} size={25} className="transition-all duration-[10000] animate-spin " />
+              <Loader strokeWidth={2} size={25} className="transition-all  animate-spin " />
             </span>
             ) : (
               <span className="flex  group-hover/generate:gap-1 transition-all duration-300 items-center gap-4 py-2">

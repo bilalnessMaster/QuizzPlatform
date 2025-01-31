@@ -1,8 +1,10 @@
 import express from 'express';
-import { getQcms, quizAttempt } from '../controllers/quizz.controller.js';
+import { getHistory, getQcms, quizAttempt } from '../controllers/quizz.controller.js';
+import {protectRoute} from '../middleware/auth.middleware.js'
 const router = express.Router();
 
 router.post('/getqcms', getQcms)
 router.post('/attempt',quizAttempt )
+router.get('/history',protectRoute , getHistory)
 
 export default router

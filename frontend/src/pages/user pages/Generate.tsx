@@ -1,6 +1,6 @@
-import QcmForm from "../components/QcmForm"
-import QcmsQuestions from "../components/QcmsQuestions.tsx"
-import { useQcmStore } from "../stores/useQcmStore.tsx"
+import QcmForm from "../../components/QcmForm"
+import QcmsQuestions from "../../components/QcmsQuestions.tsx"
+import { useQcmStore } from "../../stores/useQcmStore.tsx"
 
 
 const Generate = () => {

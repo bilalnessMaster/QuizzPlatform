@@ -12,16 +12,18 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useQcmStore } from "../stores/useQcmStore";
 import CountUp from "react-countup";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import { memo, useEffect } from "react";
 import { useShallow } from 'zustand/react/shallow'
+import { userProps } from "@/lib/types";
 const Result = memo(() => {
   const navigate = useNavigate();
+  const {data : AuthUser} = useQuery<userProps>({queryKey : ['AuthUser']})
   const { completed, attemptSaved ,setAttemptSaved ,  formQcms, time, SelectedAnswers, score, QcmsData, ResetQcmDetails } = useQcmStore(useShallow((state)=>state))
   const handleReset = () => {
     ResetQcmDetails();
-    navigate("/user/home");
+    navigate("/user/");
   };
   const {mutate : createAttempt  } = useMutation({
     mutationKey : ['createAttempt'] , 
@@ -39,8 +41,9 @@ const Result = memo(() => {
   })
   
   useEffect(()=>{
-   if(completed && !attemptSaved && time){
+   if(completed && !attemptSaved && time && AuthUser?._id){
     createAttempt({
+      userId :  AuthUser?._id,
       score : Math.round(score), 
       language :formQcms.language  , 
       category: formQcms.category ,
@@ -51,7 +54,7 @@ const Result = memo(() => {
     })
     setAttemptSaved(true)
    }
-  },[completed, attemptSaved, time ,setAttemptSaved,QcmsData.length])
+  },[completed, attemptSaved,AuthUser, time ,setAttemptSaved,QcmsData.length])
 
   return (
     <>

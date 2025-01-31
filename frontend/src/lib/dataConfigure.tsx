@@ -15,7 +15,7 @@ export const links = [
   {
     name: "home",
     icon: <House strokeWidth={1.2}  />,
-    href: "/user/home",
+    href: "/user/",
   },
   {
     name: "tests",
@@ -45,7 +45,7 @@ export const links = [
   {
     name: "generate Qcm",
     icon: <ClipboardType strokeWidth={1.2} />,
-    href: "/user/generate",
+    href: "/user/generate Qcm",
   },
 ];
 export const category :languageType[]  = [

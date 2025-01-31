@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import User from '../models/User.model.js'
 
 
-const protectRoute = async (req , res ,next) =>{
+export const protectRoute = async (req , res ,next) =>{
   try {
     const {accessToken}= req.cookies
     if(!accessToken) return res.status(401).json({
@@ -11,6 +11,7 @@ const protectRoute = async (req , res ,next) =>{
     jwt.verify(accessToken , process.env.SECRET, async (error , payload)=>{ 
         if(error) throw error
         const user = await User.findOne({_id : payload.userId}).select('-password')
+        if(!user) return res.status(404).json({message : 'user not found'})
         req.user = user
         next()
     })   

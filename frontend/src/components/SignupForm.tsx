@@ -1,10 +1,15 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import TilteHeader from "./TilteHeader";
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import HomeArrow from "./HomeArrow";
-
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SignUpformSchema } from "@/lib/formValidation";
+import { z } from "zod";
+import { useMutation } from "@tanstack/react-query";
+import axiosInstance from "@/lib/axios";
+import { useToast } from "@/hooks/use-toast";
 const gender = [
   {
     gender: "male",
@@ -18,30 +23,67 @@ const gender = [
   },
 ];
 const SignupForm = () => {
-  const [data, setData] = useState<any>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  });
+  const { toast } = useToast();
   const [currentGender, setCurrentGender] = useState("male");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(SignUpformSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+    },
+  });
+  const { mutate: signup, isPending } = useMutation({
+    mutationFn: async (formData: z.infer<typeof SignUpformSchema>) => {
+      const { data } = await axiosInstance.post("/auth/signup", {
+        ...formData,
+        gender: currentGender,
+      });
+      return data;
+    },
+    onSuccess: (data: { message?: string }) => {
+      toast({
+        title: "Success",
+        description: data?.message,
+      });
+    },
+    onError: (error: Error & { response: any }) => {
+      console.log(error);
+
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: error?.response?.data?.message,
+      });
+    },
+  });
+  const onSubmit = (data: z.infer<typeof SignUpformSchema>) => {
+    signup(data);
+  };
 
   return (
-    <section className="px-2 space-y-4 ">
+    <section className="space-y-8 px-2 w-full sm:max-w-lg">
       <TilteHeader
         title="hey , hello 👋"
         description="Join our platform for creating and managing professional quizzes and QCMs"
       />
-      <div className="w-full flex justify-center gap-2 items-center">
-        <button
-          onClick={() =>
-            setCurrentGender(currentGender === "female" ? "male" : "female")
-          }
-        >
-          <ChevronLeft size={30} />
-        </button>
-        <div className="size-20 bg-indigo-500 rounded-full flex overflow-hidden ">
-          <AnimatePresence mode="popLayout">
+
+      <form onSubmit={handleSubmit(onSubmit)} action="" className="space-y-2 ">
+        <label className="w-full flex justify-center gap-2 items-center mb-11">
+          <button
+            type="button"
+            onClick={() =>
+              setCurrentGender(currentGender === "female" ? "male" : "female")
+            }
+          >
+            <ChevronLeft size={30} />
+          </button>
+          <div className="size-20 bg-indigo-500 rounded-full flex overflow-hidden ">
             {gender.map(({ gender, img }) => (
               <motion.img
                 key={gender}
@@ -64,21 +106,21 @@ const SignupForm = () => {
                 src={img}
               />
             ))}
-          </AnimatePresence>
-        </div>
-        <button
-          onClick={() =>
-            setCurrentGender(currentGender === "female" ? "male" : "female")
-          }
-        >
-          <ChevronRight size={30} />
-        </button>
-      </div>
-      <form action="" className="space-y-2">
+          </div>
+          <button
+            type="button"
+            onClick={() =>
+              setCurrentGender(currentGender === "female" ? "male" : "female")
+            }
+          >
+            <ChevronRight size={30} />
+          </button>
+        </label>
         <div className="flex items-center gap-2">
           <label htmlFor="firstName" className="label flex-1">
             <span>First Name</span>
             <input
+              {...register("firstName")}
               type="text"
               name="firstName"
               id="firstName"
@@ -89,17 +131,19 @@ const SignupForm = () => {
           <label htmlFor="lastName" className="label flex-1">
             <span>Last Name</span>
             <input
+              {...register("lastName")}
               type="text"
-              name=" lastNamee"
+              name="lastName"
               id="lastName"
               className="input"
               placeholder="Smith"
             />
           </label>
         </div>
-        <label htmlFor="email" className="label flex-1">
+        <label htmlFor="email" className="label">
           <span>Email</span>
           <input
+            {...register("email")}
             type="text"
             name="email"
             id="email"
@@ -107,41 +151,81 @@ const SignupForm = () => {
             placeholder="example@gmail.com"
           />
         </label>
-        <label htmlFor="password" className="label flex-1">
+        <label htmlFor="password" className="label ">
           <span>password</span>
           <input
-            type="text"
+            {...register("password")}
+            type="password"
             name="password"
             id="password"
             className="input"
-            placeholder="example@gmail.com"
+            placeholder="ex : NSMKmI&t6s"
           />
         </label>
         <button
           type="submit"
-          className=" w-full h-10 rounded-md bg-[#E297Ff] font-dm font-medium text-white"
+          disabled={isPending}
+          className=" w-full h-10 rounded-md bg-[#E297Ff] flex items-center justify-center font-dm font-medium text-white"
         >
-          Sign up
+          {isPending ? (
+            <div className="size-5 border-2 border-white/25 rounded-full border-t-2 border-t-white animate-spin " />
+          ) : (
+            "Sign up"
+          )}
         </button>
+        <p className="max-w-sm text-sm ">
+          By confirming your email , you agree to our{" "}
+          <Link to={"/terms"} className="font-medium underline">
+            Terms of serveice
+          </Link>{" "}
+          and that you read and understood our{" "}
+          <Link className="font-medium underline" to={"/policy"}>
+            Privacy Policy{" "}
+          </Link>
+        </p>
+        <p className="font-normal text-sm">
+          Your already have an account{" "}
+          <Link className="font-medium text-blue-600 " to={"/session/signin"}>
+            Sign in
+          </Link>
+        </p>
       </form>
-      <p className="max-w-md text-sm ">
-        By confirming your email , you agree to our{" "}
-        <Link to={"/terms"} className="font-medium underline">
-          Terms of serveice
-        </Link>{" "}
-        and that you read and understood our{" "}
-        <Link className="font-medium underline" to={"/policy"}>
-          Privacy Policy{" "}
-        </Link>
-      </p>
-      <p className="font-normal text-sm">
-        Your already have an account{" "}
-        <Link className="font-medium text-blue-600" to={"/session/signin"}>
-          Sign in
-        </Link>
-      </p>
+      {errors.firstName ? (
+        <motion.div
+          initial={{
+            marginTop: 0,
+            opacity: 0,
+          }}
+          animate={{
+            margin: 20,
+            opacity: 1,
+          }}
+          className="bg-gray-50 rounded-md font-dm text-sm text-red-600 px-1 "
+        >
+          <ul>
+            <li className="first-letter:capitalize">
+              {errors?.firstName?.message}
+            </li>
+            <li className="first-letter:capitalize">
+              {errors?.lastName?.message}
+            </li>
+            <li className="first-letter:capitalize">
+              {errors?.email?.message}
+            </li>
+            <li className="first-letter:capitalize">
+              {errors?.password?.message}
+            </li>
+          </ul>
+        </motion.div>
+      ) : null}
     </section>
   );
 };
 
 export default SignupForm;
+// const [data, setData] = useState<any>({
+//   firstName: "",
+//   lastName: "",
+//   email: "",
+//   password: "",
+// });
