@@ -21,6 +21,7 @@ export type QuestionProps = {
 export interface Answer {
   answer: string;
   right: boolean;
+  _id?: string;
 }
 
 export  interface formProps{ 
@@ -38,7 +39,8 @@ export type userProps = {
     isAdmin: boolean,
     createdAt: string,
     updatedAt: string,
-    gender: 'male' | 'female',
+    gender: string,
+    streak : number
 } | undefined
 export type ResultCardProps = {
   category: string[];
@@ -52,3 +54,28 @@ export type ResultCardProps = {
   userId: string;
   _id: string;
 };
+
+
+export interface SelectedAnswer {
+  category: string;
+  question: string;
+  answers: Answer[];
+  _id: string;
+}
+
+export interface QuizResult {
+  _id: string;
+  score: number;
+  language: string;
+  category: string[];
+  status: string;
+  maxScore: number;
+  selectedAnswers: SelectedAnswer[];
+  timeTaken: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface QuizResultProps {
+  result: QuizResult;
+}

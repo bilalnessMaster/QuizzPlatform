@@ -33,7 +33,7 @@ const SwitchMode = memo(() => {
   return (
     <button
       onClick={handleSwitch}
-      className="dark:bg-neutral-800 absolute bottom-4 border right-4 size-12 bg-white shader items-center flex  justify-center rounded-full  dark:border-neutral-50"
+      className="dark:bg-neutral-800 fixed bottom-4 border right-12 size-12 bg-white shader items-center flex  justify-center rounded-full  dark:border-neutral-50"
     >
       {!(mode === "dark") ? (
         <Moon />

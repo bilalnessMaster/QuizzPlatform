@@ -17,7 +17,7 @@ const Navbar = () => {
   const [linksItems , setlinksItems]= useState(links)
   const container = {
     close: {
-      width: "3rem",
+      width: "3.2rem",
       transition: {
         type: "spring",
         damping: 15,
@@ -60,7 +60,7 @@ const Navbar = () => {
       style={{
  
       }}
-      className="px-3 py-4 bg-white   h-screen w-80 flex flex-col justify-between overflow-hidden z-20 dark:bg-neutral-800 dark:border border-neutral-700 dark:text-neutral-300"
+      className="px-3 py-4 bg-white hidden    h-screen w-80 md:flex flex-col justify-between overflow-hidden z-20 dark:bg-neutral-800 dark:border border-neutral-700 dark:text-neutral-300"
     >
       <div className="space-y-14 ">
         <div className="flex items-center justify-between">
@@ -120,7 +120,7 @@ const Navbar = () => {
                 placeholder="Setting .."
               />
               <span className="absolute  left-2 inset-y-0">
-                <Search className="w-4 text-black/45" />
+                <Search className="w-4 text-black/45 dark:text-neutral-200" />
               </span>
             </label>
           </div>

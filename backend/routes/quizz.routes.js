@@ -4,7 +4,7 @@ import {protectRoute} from '../middleware/auth.middleware.js'
 const router = express.Router();
 
 router.post('/getqcms', getQcms)
-router.post('/attempt',quizAttempt )
+router.post('/attempt',protectRoute,quizAttempt )
 router.get('/history',protectRoute , getHistory)
 
 export default router

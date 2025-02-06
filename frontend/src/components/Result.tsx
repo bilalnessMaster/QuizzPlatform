@@ -22,7 +22,6 @@ const Result = memo(() => {
   const {data : AuthUser} = useQuery<userProps>({queryKey : ['AuthUser']})
   const { completed, attemptSaved ,setAttemptSaved ,  formQcms, time, SelectedAnswers, score, QcmsData, ResetQcmDetails } = useQcmStore(useShallow((state)=>state))
   const handleReset = () => {
-    ResetQcmDetails();
     navigate("/user/");
   };
   const {mutate : createAttempt  } = useMutation({
@@ -49,13 +48,14 @@ const Result = memo(() => {
       category: formQcms.category ,
       status: (score/QcmsData.length)*100 > 50 ? 'passed' : 'failed',
       maxScore : QcmsData.length , 
-      answers: SelectedAnswers,
+      selectedAnswers: SelectedAnswers,
       timeTaken: time 
     })
     setAttemptSaved(true)
    }
   },[completed, attemptSaved,AuthUser, time ,setAttemptSaved,QcmsData.length])
-
+  console.log(score/QcmsData.length);
+  
   return (
     <>
    
@@ -99,10 +99,10 @@ const Result = memo(() => {
                       pathLength : 0
                     }}
                     animate={{
-                      pathLength : Math.round(score/QcmsData.length)
+                      pathLength : score/QcmsData.length
                     }}
                     transition={{
-                      duration : 4  , delay : .4
+                      duration : 4 
                     }}
                    
                   />  
@@ -175,6 +175,7 @@ const Result = memo(() => {
                 </span>
                 <span className="text-2xl font-bricolage">Generate</span>
               </button>
+      
             </div>
           </motion.div>
         </>

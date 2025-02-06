@@ -25,12 +25,12 @@ export const links = [
   {
     name: "setting",
     icon: <SlidersHorizontal strokeWidth={1.2} />,
-    href: "/user/tests",
+    href: "/user/setting",
   },
   {
     name: "analytics",
     icon: <ChartPie strokeWidth={1.2} />,
-    href: "/user/tests",
+    href: "/user/anatytics",
   },
   {
     name: "learn (coming soon)",

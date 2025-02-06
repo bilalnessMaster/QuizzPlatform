@@ -13,7 +13,7 @@ const LinksItem = ({name , href , icon , isOpen} : {name : string , href : strin
         <span className={twMerge('transition-colors duration-300 dark:text-neutral-300  delay-200 text-black' , location.pathname.includes(name) && 'text-indigo-600 dark:text-indigo-500')}>
             {icon}
         </span>
-        <span className={twMerge('capitalize text-sm font-dm text-gray-500 dark:text-neutral-300 hidden',location.pathname.includes(name) && 'text-black dark:text-indigo-400 ', isOpen && 'block' )}>{name}</span>
+        <span className={twMerge('capitalize text-sm font-dm text-gray-500 dark:text-neutral-300 opacity-0 transition-opacity duration-300',location.pathname.includes(name) && 'text-black dark:text-indigo-400  ', isOpen && 'opacity-100' )}>{name}</span>
     </Link>
   )
 }

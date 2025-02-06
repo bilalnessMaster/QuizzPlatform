@@ -14,12 +14,12 @@ const gender = [
   {
     gender: "male",
 
-    img: "/male.png",
+    img: "/gender/male.png",
   },
   {
     gender: "female",
 
-    img: "/female.png",
+    img: "/gender/female.png",
   },
 ];
 const SignupForm = () => {

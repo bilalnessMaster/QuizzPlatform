@@ -23,27 +23,27 @@ export const useQcmStore = create<any>((set, get) => ({
     set({ score: score + value});
   },
   setStart: (value: boolean) => set({ start: value }),
-  SetSelectedAnswerCheckBox: (question : string , answer: string) => {
+  SetSelectedAnswerCheckBox: (question : string , answer: {answer : string , right : boolean}) => {
     const { SelectedAnswers } = get();
-    const updatedAnswers = SelectedAnswers.map((qcm: {question : string , answers: string[]})=>{
+    const updatedAnswers = SelectedAnswers.map((qcm: {category : string , question : string , answers :{answer : string , right : boolean}[]})=>{
       if(qcm.question.toLowerCase() === question.toLowerCase()){
-        const isAlreadySelected = qcm.answers.includes(answer)
+        const isAlreadySelected = qcm.answers.find((ans)=> ans.answer === answer.answer)
         return {
           ...qcm , 
-          answers : isAlreadySelected ?  qcm.answers.filter(ans => ans !== answer) :[...qcm.answers ,answer ]
+          answers : isAlreadySelected ?  qcm.answers.filter(ans => ans.answer !== answer.answer) :[...qcm.answers ,answer ]
         }
       }
       return qcm
     })
     set({SelectedAnswers  : updatedAnswers})
   },
-  SetSelectedAnswerRadio : (question : string , answer: string) =>{ 
+  SetSelectedAnswerRadio : (question : string , value: {answer : string , right : boolean}) =>{ 
     const { SelectedAnswers } = get();
-    const updatedAnswers = SelectedAnswers.map((qcm : {question : string , answers :string[]})=>{
+    const updatedAnswers = SelectedAnswers.map((qcm : {category : string , question : string , answers :{anwer : string , right : boolean}[]})=>{
       if(qcm.question.toLowerCase() === question.toLowerCase()){
         return {
           ...qcm , 
-          answers : [answer]
+          answers : [value]
         }
       }
       return qcm
@@ -68,21 +68,26 @@ export const useQcmStore = create<any>((set, get) => ({
     }
   },
   setQcmData: (dataQcm: any) => {
-    const arrayAnswer = dataQcm.map((qcm : any) => ({ question : qcm.question , answers: []}))
+    const arrayAnswer = dataQcm.map((qcm : any) => ({ category : qcm.category ,  question : qcm.question , answers: []})) // { answer : 'something'  , right : true }
     set({ QcmsData: dataQcm , SelectedAnswers : arrayAnswer })
   },
   setTime: (value: number) => set({ time: value }),
   ResetQcmDetails: () => {
     set({
+      formQcms : {
+        category: [],
+        language: "",
+        numberQcms: 5,
+        level: "",
+      },
       QcmsData: [],
       start: false,
       completed: false,
       currentIndex: 0,
       time: 0,
-      SelectedAnswer: [],
+      SelectedAnswers: [],
       score: 0,
-      accuracy:0,
-      attemptSaved : false
+      attemptSaved: false,
     });
   },
   handleNumberofQcms : (number: number) => {
@@ -110,3 +115,19 @@ export const useQcmStore = create<any>((set, get) => ({
    },
    
 }));
+
+
+// SetSelectedAnswerCheckBox: (question : string , answer: string) => {
+//   const { SelectedAnswers } = get();
+//   const updatedAnswers = SelectedAnswers.map((qcm: {category : string , question : string , answers :string})=>{
+//     if(qcm.question.toLowerCase() === question.toLowerCase()){
+//       const isAlreadySelected = qcm.answers.includes(answer)
+//       return {
+//         ...qcm , 
+//         answers : isAlreadySelected ?  qcm.answers.filter(ans => ans !== answer) :[...qcm.answers ,answer ]
+//       }
+//     }
+//     return qcm
+//   })
+//   set({SelectedAnswers  : updatedAnswers})
+// },

@@ -24,13 +24,13 @@ const CheckboxCard = ({
     const  { value, checked } = e.target;
 
     if (checked) {
-      SetSelectedAnswerCheckBox(question , value)
+      SetSelectedAnswerCheckBox(question , {answer : value , right : isRight})
       setSelectedAnswer((presState) => [...presState, value.toLowerCase()]);
       if (isRight) {
         updateScore(+ScorePerAnswer);
       }
       } else {
-        SetSelectedAnswerCheckBox(question , value)
+        SetSelectedAnswerCheckBox(question , {answer : value , right : isRight})
       const filter = selectedAnswer.filter(
         (answer: any) => answer.toLowerCase() !== value.toLowerCase()
       );

@@ -23,7 +23,7 @@ const RadioCard = ({ question, type, answers, updateScore }: QuestionProps) => {
           updateScore(-1);
         }
         setSeletedAnswer(value);
-        SetSelectedAnswerRadio(question , value)
+        SetSelectedAnswerRadio(question , {answer : value , right : isRight})
         if (isRight) {
           updateScore(+1);
         }

@@ -44,7 +44,7 @@ const QcmsQuestions = () => {
       })}
       <div className="flex gap-2 absolute bottom-11 right-10">
         <button
-          disabled={completed}
+          disabled={true}
           onClick={handlePreviousQuestion}
           className="size-10 rounded-full bg-gris/25 flex items-center disabled:bg-red-500 disabled:cursor-not-allowed justify-center"
         >

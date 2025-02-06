@@ -25,12 +25,18 @@ const attempSchema = new Schema(
       type: Number,
       required: true,
     },
-    answers: [
+    selectedAnswers: [
       {
+        category : String, 
         question: {
           type : String,
         },
-        answers : [] // select answers for a specific question
+        answers : [
+          {
+            answer : String , 
+            right : Boolean
+          }
+        ] // select answers for a specific question
       },
     ], // of objects with each question and the right and selected answer
     timeTaken: {

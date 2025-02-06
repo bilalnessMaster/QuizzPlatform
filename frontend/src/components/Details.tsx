@@ -14,7 +14,7 @@ const Details = ({
   
   return (
     <span className="flex flex-col font-dm text-lg">
-      <span className="text-primary font-light">{name}</span>
+      <span className="text-primary font-light w-24 truncate ... sm:w-full ">{name}</span>
       <span className="flex items-center gap-2">
         <span>{icon}</span>
         <span>

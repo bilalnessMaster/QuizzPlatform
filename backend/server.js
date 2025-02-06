@@ -5,6 +5,8 @@ import dotenv from 'dotenv'
 import { db } from './lib/db.js';
 import qcmRouter from './routes/quizz.routes.js';
 import authRoutes from './routes/auth.routes.js'
+import analyticsRoutes from './routes/analytics.routes.js'
+import leaderboardRoutes from './routes/leaderboard.routes.js'
 // import { insert } from './lib/Configure.js';
 dotenv.config()
 const port = process.env.PORT || 5000
@@ -19,6 +21,8 @@ app.use(cors({
 
 app.use('/api/v1/qcm' , qcmRouter)
 app.use("/api/v1/auth", authRoutes )
+app.use("/api/v1/analytics", analyticsRoutes )
+app.use("/api/v1/leaderboard", leaderboardRoutes )
 
 
 

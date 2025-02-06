@@ -3,7 +3,7 @@ import { ResultCardProps } from "@/lib/types";
 import { formatDistanceToNow } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
-const HistoryCard = ({
+const RecentCard = ({
   category,
   createdAt,
   language,
@@ -16,12 +16,12 @@ const HistoryCard = ({
     <div
       key={_id}
       className={twMerge(
-        " bg-green-200 dark:bg-green-500 p-1 rounded-md flex justify-between items-center font-dm text-sm dark:text-neutral-200",
-      status === "failed" && "bg-red-200 dark:bg-red-500"
+        " bg-green-100 dark:bg-neutral-700 p-1 rounded-md flex justify-between items-center font-dm text-sm dark:text-neutral-200 sm:last:hidden md:last:flex ",
+      status === "failed" && "bg-red-100 "
       )}
     >
       <div className="space-x-2 flex items-center">
-        <span className="inline-flex size-10 bg-white dark:text-neutral-500 rounded-full items-center justify-center ">
+        <span className={twMerge("inline-flex size-10 font-semibold bg-white dark:text-neutral-500 rounded-full items-center justify-center " , status === 'failed' ? 'dark:bg-red-500 dark:text-red-900' :'dark:bg-green-500 dark:text-green-900 ' )}>
           {score}/{maxScore}
         </span>
         <span className="capitalize">Language : {language}</span>
@@ -36,4 +36,4 @@ const HistoryCard = ({
   );
 };
 
-export default HistoryCard;
+export default RecentCard;

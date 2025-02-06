@@ -9,7 +9,7 @@ export const protectRoute = async (req , res ,next) =>{
         message: 'you are unauthorize to make this operation'
     })
     jwt.verify(accessToken , process.env.SECRET, async (error , payload)=>{ 
-        if(error) throw error
+        if(error) throw error 
         const user = await User.findOne({_id : payload.userId}).select('-password')
         if(!user) return res.status(404).json({message : 'user not found'})
         req.user = user

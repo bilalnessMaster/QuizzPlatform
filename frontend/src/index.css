@@ -8,7 +8,7 @@
         @apply bg-main dark:bg-neutral-900 transition-colors duration-500 dark:text-neutral-200
     }
     .section { 
-        @apply flex-1 py-12 px-12 h-screen
+        @apply flex-1 md:py-12 md:px-12 h-screen py-4 px-4
     }
     .btn { 
         @apply bg-gris/25 cursor-pointer px-3 text-primary capitalize py-[.2rem] font-medium font-dm text-lg rounded-full
@@ -27,6 +27,15 @@
     }
     .input {
         @apply h-10 rounded-md border-gray-300 pl-4  text-sm dark:bg-neutral-800 dark:border-neutral-700
+    }
+    .start { 
+        @apply capitalize font-dm bg-btnColor text-center w-32 py-2 font-medium rounded-md text-secondarytwo dark:bg-indigo-50 dark:text-indigo-600
+    }
+    .customBg { 
+        @apply bg-white shader dark:bg-neutral-800 dark:border border-neutral-700 rounded-md
+    }
+    .btnTopics {
+        @apply border dark:border-neutral-600  bg-gris/25 cursor-pointer  text-primary capitalize  font-medium font-dm text-lg rounded-full flex gap-2 
     }
     :root {
 

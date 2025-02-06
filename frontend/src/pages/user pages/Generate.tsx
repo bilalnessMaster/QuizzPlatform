@@ -1,10 +1,14 @@
+import { useEffect } from "react"
 import QcmForm from "../../components/QcmForm"
 import QcmsQuestions from "../../components/QcmsQuestions.tsx"
 import { useQcmStore } from "../../stores/useQcmStore.tsx"
 
 
 const Generate = () => {
-  const {start} = useQcmStore()
+  const {start ,SelectedAnswers,ResetQcmDetails} = useQcmStore()
+  useEffect(()=>{
+    ResetQcmDetails()
+  },[ResetQcmDetails])
 
   
   return (
