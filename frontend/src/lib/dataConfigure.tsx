@@ -1,4 +1,5 @@
 import {
+  Brain,
   ChartPie,
   ClipboardList,
   ClipboardType,
@@ -40,12 +41,17 @@ export const links = [
   {
     name: "leaderboard",
     icon: <Crown strokeWidth={1.2}  />,
-    href: "/user/tests",
+    href: "/user/leaderboard",
   },
   {
     name: "generate Qcm",
     icon: <ClipboardType strokeWidth={1.2} />,
     href: "/user/generate Qcm",
+  },
+  {
+    name: "generateAI",
+    icon: <Brain strokeWidth={1.2} />,
+    href: "/user/generateAI",
   },
 ];
 export const category :languageType[]  = [

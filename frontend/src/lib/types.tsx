@@ -58,6 +58,7 @@ export type ResultCardProps = {
 
 export interface SelectedAnswer {
   category: string;
+  rightAnswers? : Answer[];
   question: string;
   answers: Answer[];
   _id: string;
@@ -79,3 +80,16 @@ export interface QuizResult {
 export interface QuizResultProps {
   result: QuizResult;
 }
+export type leaderboardProps = {
+  accuracyPercentage: number;
+  position : number
+  attempts: number;
+  totalPassedQuizzes: number;
+  totalTimeSpent: number;
+  userId: {
+    firstName: string;
+    lastName: string;
+    gender : string;
+  };
+  rank : string
+};

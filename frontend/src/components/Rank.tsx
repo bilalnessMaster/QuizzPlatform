@@ -28,7 +28,7 @@ const Rank = () => {
         <h1 className="text-2xl  font-bricolage">your rank</h1>
       </div>
       <div className="flex justify-between items-center ">
-        <p className="text-sm max-w-64 font-dm ">
+        <p className="text-[16px] max-w-64 font-dm text-balance ">
           Work more to open new ranks and achieve greatness, the more you play
           the more you claim{" "}
         </p>

@@ -57,17 +57,19 @@ const RadioCard = ({ question, type, answers, updateScore }: QuestionProps) => {
       <div>
         <ul className="space-y-2">
           {answers.map(({ answer, right }, index) => (
-            <li key={index} className="flex gap-3 items-center ">
+            <li key={index} className="flex   gap-3 items-baseline  ">
               <input
                 onChange={(e) => handleAnswer(e, { answer, right })}
                 type={type}
                 name={question}
                 value={answer}
                 id={question + index}
-                className={twMerge("radio")}
+                className={twMerge("radio ")}
               />
-              <span className=" font-dm font-normal text-lg">
+              <span className="font-dm font-normal  text-lg text-balance ">
+                <span>
                 {answer}
+                </span>
               </span>
             </li>
           ))}

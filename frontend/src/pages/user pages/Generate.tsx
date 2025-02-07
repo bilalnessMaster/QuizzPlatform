@@ -5,7 +5,7 @@ import { useQcmStore } from "../../stores/useQcmStore.tsx"
 
 
 const Generate = () => {
-  const {start ,SelectedAnswers,ResetQcmDetails} = useQcmStore()
+  const {start ,ResetQcmDetails} = useQcmStore()
   useEffect(()=>{
     ResetQcmDetails()
   },[ResetQcmDetails])

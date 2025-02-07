@@ -41,6 +41,7 @@ export const getQcms = async (req, res) => {
           category: { $in: filter.category },
           level: filter.level,
           language: filter.language,
+          tags: {$in: filter.category}
         },
       },
       { $sample: { size: filter.numberQcms } },

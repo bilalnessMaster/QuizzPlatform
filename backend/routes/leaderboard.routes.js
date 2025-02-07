@@ -4,6 +4,6 @@ import { getleaderboard, updateRank } from '../controllers/leaderboard.controlle
 const router = express.Router()
 
 router.get('/rank', protectRoute , updateRank)
-router.get('/geteleaderboard' , getleaderboard)
+router.get('/getleaderboard' , getleaderboard)
 
 export default router;

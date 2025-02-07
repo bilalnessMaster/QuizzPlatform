@@ -5,7 +5,7 @@
 
 @layer base {
     body { 
-        @apply bg-main dark:bg-neutral-900 transition-colors duration-500 dark:text-neutral-200
+        @apply bg-main dark:bg-neutral-900 antialiased transition-colors duration-500 dark:text-neutral-200
     }
     .section { 
         @apply flex-1 md:py-12 md:px-12 h-screen py-4 px-4

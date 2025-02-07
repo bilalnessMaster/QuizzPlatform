@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar"
 
 const App = () => {
   return (
-   <section className="flex">
+   <section className="flex ">
     <Navbar />
     <Outlet />
    </section>

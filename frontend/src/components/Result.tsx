@@ -54,7 +54,7 @@ const Result = memo(() => {
     setAttemptSaved(true)
    }
   },[completed, attemptSaved,AuthUser, time ,setAttemptSaved,QcmsData.length])
-  console.log(score/QcmsData.length);
+  console.log(time);
   
   return (
     <>

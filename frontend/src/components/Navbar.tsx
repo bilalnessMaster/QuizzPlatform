@@ -60,7 +60,7 @@ const Navbar = () => {
       style={{
  
       }}
-      className="px-3 py-4 bg-white hidden    h-screen w-80 md:flex flex-col justify-between overflow-hidden z-20 dark:bg-neutral-800 dark:border border-neutral-700 dark:text-neutral-300"
+      className="px-3 py-4 customBg hidden    h-screen w-80 md:flex flex-col justify-between overflow-hidden z-20 "
     >
       <div className="space-y-14 ">
         <div className="flex items-center justify-between">

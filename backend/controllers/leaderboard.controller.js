@@ -1,4 +1,5 @@
 
+import { clientRedis } from "../lib/redis.js";
 import Analytics from "../models/Analytics.model.js";
 import Attempt from "../models/Attempt.model.js";
 import Leaderboard from "../models/Leaderboard.model.js";
@@ -8,7 +9,15 @@ export const getleaderboard = async (req ,res) => {
         const page = Number(req.query.page) || 1;
         let limit = Number(req.query.limit) || 10;
         const skip = (page - 1) * limit;
+        // const rankMap = new  Map()
         limit = Math.min(limit, 50); 
+        const AllUsers = await Leaderboard.find()
+        .sort({ totalPassedQuizzes: -1, accuracyPercentage: -1, attempts: -1, totalTimeSpent: 1 })
+        .lean();        
+        AllUsers.forEach(async (user, index)=>{
+            // rankMap.set(user.userId.toString() ,index+1 )
+            await clientRedis.set(user.userId.toString(),index+1)
+        })
         const totalCount = await Leaderboard.countDocuments();
         if (skip >= totalCount) {
             return res.status(200).json({
@@ -19,16 +28,24 @@ export const getleaderboard = async (req ,res) => {
                 message: "No more leaderboard entries.",
             });
         }
+        //phobiahSomo0
         const leaderboard = await Leaderboard.find()
-        .populate("userId", 'firstName lastName -_id')
-        .sort({accuracyPercentage : -1 ,totalPassedQuizzes : -1 , totalTimeSpent:-1 , attempts:-1})
+        .populate("userId", 'firstName lastName gender _id')
+        .sort({ totalPassedQuizzes: -1, accuracyPercentage: -1, attempts: -1, totalTimeSpent: 1 })
         .skip(skip)
         .limit(limit)
-        .select("-_id userId accuracyPercentage totalPassedQuizzes totalTimeSpent attempts")
+        .select("-_id userId accuracyPercentage totalPassedQuizzes totalTimeSpent attempts rank")
         .lean();
+        const leaderboardPosition = await Promise.all(
+            leaderboard.map(async(user) =>{
+            
+                const  position = await clientRedis.get(user.userId._id.toString()) || null
+                return ({...user,position})
+            })
+        )
         res.json({
             success: true,
-            leaderboard,
+            leaderboard: leaderboardPosition,
             totalPages: Math.ceil(totalCount / limit),
             currentPage: page,
         });
@@ -73,3 +90,4 @@ export const updateRank = async (req , res) => {
         });
     }
 }
+

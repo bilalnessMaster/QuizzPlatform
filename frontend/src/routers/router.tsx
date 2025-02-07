@@ -10,6 +10,8 @@ import Home from "@/pages/user pages/Home";
 import LandingPage from '../pages/landingPage'
 import Setting from "@/pages/user pages/Setting";
 import Analytics from "@/pages/user pages/Analytics";
+import LeaderBoard from "@/pages/user pages/LeaderBoard";
+import GenerateAi from "@/pages/user pages/GenerateAi";
 export const router = createBrowserRouter([
   {
     path: "/user",
@@ -38,6 +40,14 @@ export const router = createBrowserRouter([
       {
         path: "/user/anatytics",
         element: <Analytics />,
+      },
+      {
+        path: "/user/LeaderBoard",
+        element: <LeaderBoard />,
+      },
+      {
+        path: "/user/generateAi",
+        element: <GenerateAi />,
       },
     ],
   },
