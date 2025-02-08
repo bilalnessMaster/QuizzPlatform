@@ -1,3 +1,4 @@
+import { clientRedis } from "../lib/redis.js";
 import Analytics from "../models/Analytics.model.js";
 import Attempt from "../models/Attempt.model.js";
 export const getAnalytics = async (req, res) => {
@@ -12,7 +13,8 @@ export const getAnalytics = async (req, res) => {
         .status(200)
         .json({ message: "get the analytics", analytics: newAnalytics });
     }
-    res.status(200).json({ message: "get the analytics", analytics });
+    const  yourPosition = await clientRedis.get(req.user._id.toString())
+    res.status(200).json({ message: "get the analytics", analytics , yourPosition });
   } catch (error) {
     console.log("error occured while signing up " + error);
     return res.status(500).json({

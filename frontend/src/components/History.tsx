@@ -23,7 +23,7 @@ const History = () => {
     },
   });
 
-  console.log(totalPages);
+  console.log(History);
   
 
   return (
@@ -42,7 +42,7 @@ const History = () => {
             key={item._id}
             className={twMerge(
               "flex flex-col bg-green-200 dark:bg-neutral-700   p-2 rounded-md overflow-hidden  "
-            )}
+             ,item?.status === 'failed' && 'bg-red-200')}
           >
             <div className="flex justify-between items-center mb-[0.2rem]">
               <div className="space-x-2 flex items-center">

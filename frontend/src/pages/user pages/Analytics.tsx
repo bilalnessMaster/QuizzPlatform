@@ -23,11 +23,11 @@ import {
 const Analytics = () => {
   
   const { data: AuthUser } = useQuery<userProps>({ queryKey: ["AuthUser"] });
-  const { data: analytics } = useQuery({
+  const { data } = useQuery({
     queryKey: ["analytics"],
     queryFn: async () => {
       const { data } = await axiosInstance.get("/analytics/getanalytics");
-      return data?.analytics;
+      return data;
     },
     enabled: !!AuthUser,
   });
@@ -44,32 +44,32 @@ const Analytics = () => {
               <Details
                 name="Total questions"
                 icon={<HelpCircle size={20} />}
-                number={analytics?.totalQuestionsAttempted}
+                number={data?.analytics?.totalQuestionsAttempted}
               />
               <Details
                 name="Total time spend"
                 icon={<Timer size={20} color="brown" />}
-                number={1}
+                number={data?.analytics?.totalTimeSpent/59}
               />
               <Details
                 name="Passed"
                 icon={<CheckCircle2 size={20} color="green" />}
-                number={analytics?.totalPassedQuizzes}
+                number={data?.analytics?.totalPassedQuizzes}
               />
               <Details
                 name="Questions/Passed "
                 icon={<HelpCircle size={20} />}
-                number={analytics?.totalCorrectAnswers}
+                number={data?.analytics?.totalCorrectAnswers}
               />
               <Details
                 name="Accuracy"
                 icon={<Percent size={20} color="#8da2fb" />}
-                number={analytics?.accuracyPercentage}
+                number={data?.analytics?.accuracyPercentage}
               />
               <Details
                 name="place in leaderboard"
                 icon={<LandPlot size={20} />}
-                number={1}
+                number={data?.yourPosition}
               />
             </div>
           </div>
@@ -88,7 +88,7 @@ const Analytics = () => {
               className={"text-2xl  font-bricolage font-normal"}
             />
             <div className="flex flex-wrap max-w-lg gap-2">
-              {analytics?.strongTopics?.map((topics: any) => (
+              {data?.analytics?.strongTopics?.map((topics: any) => (
                 <span key={topics?.category} className="btnTopics ">
                   <span className="px-2 py-[0.15rem]">
                     <span>{topics?.category}</span>
@@ -106,7 +106,7 @@ const Analytics = () => {
               className={"text-2xl  font-bricolage font-normal"}
             />
             <div className="flex flex-wrap max-w-lg gap-2">
-              {analytics?.weakTopics?.map((topics: any) => (
+              {data?.analytics?.weakTopics?.map((topics: any) => (
                 <span key={topics?.category} className="btnTopics ">
                   <span className="px-2 py-[0.15rem]">
                     <span>{topics?.category}</span>

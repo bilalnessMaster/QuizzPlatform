@@ -23,11 +23,16 @@ const Home = () => {
   const { data: quote, } = useQuery({
     queryKey: ["quote"],
     queryFn: async () => {
-      const {data} = await axios.get("https://api.api-ninjas.com/v1/quotes?category=Courage");
+      const {data} = await axios.get("https://api.api-ninjas.com/v1/quotes"       , {
+        headers : {
+          "X-Api-Key": "xNSrFYrKuc3sDJf1G5ti5A==NWKUZ8MBOeVMOOlB"
+        }
+      });
       return data
     },
     enabled: !!AuthUser,
   });
+
 
   return (
     <section className="section overflow-x-auto  relative">
@@ -42,9 +47,10 @@ const Home = () => {
       </div>
       <div className="grid grid-cols-1 gap-3">
         <div className="h-[319px] rounded-md  bg-white shader dark:bg-neutral-800 dark:border border-neutral-700 flex ">
-          <Quote content={quote?.content} author={quote?.author} />
-          <div className="flex-1 hidden md:block">
-              <img src="/VectorRandom.png" className="object-cover  h-full" alt="" />
+         <Quote content={quote[0]?.quote} author={quote[0]?.author} />
+       
+          <div className="flex-1 hidden lg:block">
+              <img src="/VectorRandom.png" className="object-cover w-full  h-full" alt="" />
           </div>
 
         </div>
