@@ -87,7 +87,7 @@ const AiQcmForm = () => {
         ) : (
           <button
             type="submit"
-            className="flex justify-center group/generate w-full h-12 items-center  bg-btnColor rounded-full dark:bg-neutral-600 "
+            className="flex justify-center group/generate w-full h-12 items-center  bg-btnColor rounded dark:bg-neutral-600 "
             disabled={isPending}
           >
             {isPending? (

@@ -8,7 +8,7 @@ const TilteHeader = ({
     icon
 } : {title : string , icon?:React.ReactNode , description ?: string , className?:string}) => {
   return (
-    <div className="space-y-2 w-full text-black dark:text-neutral-200">
+    <div className="space-y-2 w-full text-black font-bricolage dark:text-neutral-200">
         <h1 className={twMerge("flex items-start gap-1 text-2xl font-medium font-dm", className)}>
         <span>{icon}</span>
         <span>{title}</span>

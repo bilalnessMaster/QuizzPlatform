@@ -19,7 +19,7 @@ app.use(cors({
     credentials : true ,
 }))
 
-
+// nx mono repo
 app.use('/api/v1/qcm' , qcmRouter)
 app.use("/api/v1/auth", authRoutes )
 app.use("/api/v1/analytics", analyticsRoutes )

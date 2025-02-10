@@ -3,6 +3,7 @@ import Details from "@/components/Details";
 import History from "@/components/History";
 import Rank from "@/components/Rank";
 import TilteHeader from "@/components/TilteHeader";
+import Wrapper from "@/components/Wrapper";
 import axiosInstance from "@/lib/axios";
 import { userProps } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
@@ -34,7 +35,7 @@ const Analytics = () => {
   
 
   return (
-    <section className="section overflow-x-auto  relative">
+    <Wrapper className="section overflow-x-auto  relative">
       <TilteHeader title="Analytics" />
       <div className="w-full grid  grid-cols-1 lg:grid-cols-12 gap-3">
         <div className="col-span-12 lg:col-span-4  flex flex-col gap-3">
@@ -122,7 +123,7 @@ const Analytics = () => {
       {/* history component */}
       <History />
       </div>
-    </section>
+    </Wrapper>
   );
 };
 

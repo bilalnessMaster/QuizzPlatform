@@ -2,6 +2,7 @@
 import LeaderBoardCard from "@/components/LeaderBoardCard";
 import LeaderBoardCardSkeleton from "@/components/LeaderBoardCardSkeleton";
 import TilteHeader from "@/components/TilteHeader";
+import Wrapper from "@/components/Wrapper";
 import axiosInstance from "@/lib/axios";
 import { leaderboardProps } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
@@ -26,7 +27,9 @@ const LeaderBoard = () => {
   console.log(leaderboardData);
   
   return (
-    <section className="section  relative">
+    <Wrapper >
+
+ 
       <TilteHeader title="Leaderboard" />
       <div className="w-full h-[95%] customBg overflow-auto">
         <table className="w-full">
@@ -86,7 +89,11 @@ const LeaderBoard = () => {
           </div>
         )}
       </div>
-    </section>
+ 
+
+
+    </Wrapper>
+    
   );
 };
 

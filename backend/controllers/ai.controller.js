@@ -27,11 +27,11 @@ export const getGeneratedQuizzAi = async (req, res) => {
     2. Do not include any additional text or explanations.
     3. Ensure the array follows the same structure as the provided object.
     4. Randomize the order of the answers within each question to ensure the correct answer is n
-    
+    5. type object can be either "radio" or "checkbox"
     Example output format:
     [
       {
-        "type": "radio" or "checkbox",
+        "type": "",
         "question": "Question text here",
         "answers": [
           

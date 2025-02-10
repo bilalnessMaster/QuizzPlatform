@@ -14,7 +14,6 @@ export const getleaderboard = async (req ,res) => {
         .sort({ totalPassedQuizzes: -1, accuracyPercentage: -1, attempts: -1, totalTimeSpent: 1 })
         .lean();        
         AllUsers.forEach(async (user, index)=>{
-            
             await clientRedis.set(user.userId.toString(),index+1)
         })
         const totalCount = await Leaderboard.countDocuments();

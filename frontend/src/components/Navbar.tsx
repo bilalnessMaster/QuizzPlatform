@@ -11,7 +11,7 @@ import { userProps } from "@/lib/types";
 
 const Navbar = () => {
   const {data : AuthUser} = useQuery<userProps>({queryKey : ['AuthUser']})
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const containerController = useAnimationControls();
   const [search , setSearch]= useState('')
   const [linksItems , setlinksItems]= useState(links)
@@ -60,7 +60,7 @@ const Navbar = () => {
       style={{
  
       }}
-      className="px-3 py-4 customBg hidden    rounded-none h-screen w-80 md:flex flex-col justify-between overflow-hidden z-20 "
+      className="px-3 py-4 customBg     rounded-none h-screen w-80 md:flex flex-col justify-between overflow-hidden z-20 "
     >
       <div className="space-y-14 ">
         <div className="flex items-center justify-between">

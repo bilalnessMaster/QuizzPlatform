@@ -7,6 +7,7 @@ import SwitchMode from "@/components/SwitchMode";
 import axiosInstance from "@/lib/axios";
 import { userProps } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
+import Wrapper from "@/components/Wrapper";
 import axios from "axios";
 
 const Home = () => {
@@ -35,7 +36,7 @@ const Home = () => {
 
 
   return (
-    <section className="section overflow-x-auto  relative">
+    <Wrapper className="section overflow-x-auto  relative">
       <div className="mb-2 text-2xl font-bricolage font-light">
         <h1>
           Welcome ,{" "}
@@ -47,8 +48,9 @@ const Home = () => {
       </div>
       <div className="grid grid-cols-1 gap-3">
         <div className="h-[319px] rounded-md  bg-white shader dark:bg-neutral-800 dark:border border-neutral-700 flex ">
-         <Quote content={quote[0]?.quote} author={quote[0]?.author} />
+        {quote && <Quote content={quote[0]?.quote} author={quote[0]?.author} /> }
        
+        
           <div className="flex-1 hidden lg:block">
               <img src="/VectorRandom.png" className="object-cover w-full  h-full" alt="" />
           </div>
@@ -63,7 +65,7 @@ const Home = () => {
         </div>
       </div>
       <SwitchMode />
-    </section>
+    </Wrapper>
   );
 };
 

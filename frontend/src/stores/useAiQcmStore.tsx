@@ -75,12 +75,6 @@ export const useAiQcmStore= create<any>((set, get) => ({
     setTime: (value: number) => set({ time: value }),
     ResetQcmDetails: () => {
       set({
-        formQcms : {
-          category: [],
-          language: "",
-          numberQcms: 5,
-          level: "",
-        },
         QcmsData: [],
         start: false,
         completed: false,
